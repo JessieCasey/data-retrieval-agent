@@ -2,8 +2,8 @@ from pathlib import Path
 
 import typer
 
-from data_retrieval_agent.use_cases.ai_extraction_pipeline_query_use_case import AiExtractionPipelineQueryUseCase
-from data_retrieval_agent.use_cases.request_models.ai_extraction_pipeline_query_request_model import \
+from use_cases.ai_extraction_pipeline_query_use_case import AiExtractionPipelineQueryUseCase
+from use_cases.request_models.ai_extraction_pipeline_query_request_model import \
     AiExtractionPipelineQueryRequestModel
 
 app = typer.Typer(help="data-retrieval-agent CLI")

@@ -1,9 +1,10 @@
 from dataclasses import dataclass
+from pathlib import Path
 
-from data_retrieval_agent.use_cases.request_models.request_model import RequestModel
+from use_cases.request_models.request_model import RequestModel
 
 
 @dataclass
 class AiExtractionPipelineQueryRequestModel(RequestModel):
-    filename: str
+    filename: Path
     prompt: str
