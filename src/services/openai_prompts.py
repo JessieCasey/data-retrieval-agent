@@ -12,6 +12,10 @@ RULES:
 - Do not add explanation text.
 - Do not include more than one SQL statement.
 - If a column contains spaces or symbols, wrap it in double quotes.
+- Only use the provided table name.
+- If the question asks for number of rows/records, use COUNT(*) FROM the table.
+- If the question asks for number of columns/fields, return the provided column count as a constant.
+  Do not use COUNT(*) FROM the table for column-count questions.
 EXAMPLES:
 <BEGIN_SQL>
 SELECT COUNT(*) AS total_rows FROM records
@@ -22,6 +26,9 @@ SELECT customer_id, amount FROM records WHERE amount > 1000
 <BEGIN_SQL>
 SELECT COUNT(DISTINCT "Unnamed: 0") AS total_customers FROM records
 <END_SQL>
+<BEGIN_SQL>
+SELECT 42 AS total_columns
+<END_SQL>
 """.strip()
 
 SUMMARY_SYSTEM_PROMPT = """
@@ -30,13 +37,26 @@ Be clear and concise for non-technical users.
 """.strip()
 
 
-def build_sql_user_prompt(*, table_name: str, schema: str, prompt: str) -> str:
+def build_sql_user_prompt(
+    *,
+    table_name: str,
+    schema: str,
+    prompt: str,
+    row_count: int,
+    column_count: int,
+) -> str:
     return dedent(
         f"""
         Table: {table_name}
+        Dataset metadata:
+        - Row count: {row_count}
+        - Column count: {column_count}
         {schema}
         Question: {prompt}
         Use column names exactly as listed in schema. Keep quotes for names with special characters.
+        Intent mapping:
+        - If question is about number of rows/records, count table rows.
+        - If question is about number of columns/fields, return the provided column count constant.
         Return output only in this format:
         <BEGIN_SQL>
         <single SELECT query>

@@ -7,6 +7,7 @@ from use_cases.decorators.error_handler import (
     ExceptionHandler,
     UseCaseExceptionResponse,
 )
+from use_cases.helpers import build_result_preview
 from use_cases.request_models.ai_extraction_pipeline_query_request_model import (
     AiExtractionPipelineQueryRequestModel,
 )
@@ -32,6 +33,7 @@ class AiExtractionPipelineQueryUseCase(UseCase):
         dataframe: pd.DataFrame = self.tabular_data_service.load_excel(request_model.filename)
         generated_sql = self.llm_query_service.generate_sql(request_model.prompt, dataframe)
         query_dataframe = self.tabular_data_service.execute_sql(generated_sql, dataframe)
+        preview_columns, preview_rows, preview_truncated = build_result_preview(query_dataframe)
         summary = self.llm_query_service.summarize_query_result(
             request_model.prompt,
             generated_sql,
@@ -44,5 +46,8 @@ class AiExtractionPipelineQueryUseCase(UseCase):
             prompt=request_model.prompt,
             generated_sql=generated_sql,
             result_rows=len(query_dataframe.index),
+            preview_columns=preview_columns,
+            preview_rows=preview_rows,
+            preview_truncated=preview_truncated,
             summary=summary,
         )

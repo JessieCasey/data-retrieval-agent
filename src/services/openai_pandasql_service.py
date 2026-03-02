@@ -39,6 +39,8 @@ class OpenAIPandasqlService(LlmQueryService):
                         table_name=self.table_name,
                         schema=schema,
                         prompt=prompt,
+                        row_count=len(dataframe.index),
+                        column_count=len(dataframe.columns),
                     ),
                 },
             ],

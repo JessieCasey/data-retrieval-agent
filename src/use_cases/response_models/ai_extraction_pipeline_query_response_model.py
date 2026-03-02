@@ -10,4 +10,7 @@ class AiExtractionPipelineQueryResponseModel(ResponseModel):
     prompt: str
     generated_sql: str
     result_rows: int
+    preview_columns: list[str]
+    preview_rows: list[list[str]]
+    preview_truncated: bool
     summary: str
