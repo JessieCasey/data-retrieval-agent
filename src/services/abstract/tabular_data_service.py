@@ -5,7 +5,6 @@ import pandas as pd
 
 
 class TabularDataService:
-
     @abstractmethod
     def load_excel(self, filename: Path) -> pd.DataFrame:
         raise NotImplementedError

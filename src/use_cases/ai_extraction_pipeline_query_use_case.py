@@ -3,11 +3,16 @@ import pandas as pd
 from services.abstract.llm_query_service import LlmQueryService
 from services.abstract.tabular_data_service import TabularDataService
 from use_cases.abstract.use_case import UseCase
-from use_cases.decorators.error_handler import ExceptionHandler, UseCaseExceptionResponse
-from use_cases.request_models.ai_extraction_pipeline_query_request_model import \
-    AiExtractionPipelineQueryRequestModel
-from use_cases.response_models.ai_extraction_pipeline_query_response_model import \
-    AiExtractionPipelineQueryResponseModel
+from use_cases.decorators.error_handler import (
+    ExceptionHandler,
+    UseCaseExceptionResponse,
+)
+from use_cases.request_models.ai_extraction_pipeline_query_request_model import (
+    AiExtractionPipelineQueryRequestModel,
+)
+from use_cases.response_models.ai_extraction_pipeline_query_response_model import (
+    AiExtractionPipelineQueryResponseModel,
+)
 
 
 class AiExtractionPipelineQueryUseCase(UseCase):

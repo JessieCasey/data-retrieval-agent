@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from functools import wraps
 
+
 @dataclass
 class UseCaseExceptionResponse:
     message: str

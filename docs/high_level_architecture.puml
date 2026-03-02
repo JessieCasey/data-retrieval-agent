@@ -1,0 +1,37 @@
+@startuml
+title data-retrieval-agent — High-Level Architecture
+
+left to right direction
+skinparam roundcorner 10
+skinparam packageStyle rectangle
+skinparam componentStyle rectangle
+skinparam ActorFontColor #5E81AC
+
+actor User
+
+package "Interface Layer" {
+  component "CLI Interface\n\n• Argument parsing\n• Validation\n• Output formatting" <<CLI>> as CLI
+}
+
+package "Application Layer" {
+  component "AI Extraction Pipeline Use Case\n\n 1. load_excel\n 2. generate_sql\n 3. execute_sql\n 4. summarize_result" <<UseCase>> as UseCase
+}
+
+package "External AI Service" {
+  component "LLM — SQL Generator\n\n• Prompt → SQL\n• Schema-aware" <<LLM>> as LLM_SQL
+  component "LLM — Result Summarizer\n\n• Rows → Insight\n• User-friendly output" <<LLM>> as LLM_SUM
+}
+
+User --> CLI : prompt + filename
+CLI --> UseCase : execute(request_model)
+
+UseCase --> LLM_SQL : generate SQL\n(prompt + table schema)
+LLM_SQL --> UseCase : SQL query
+
+UseCase --> LLM_SUM : summarize results\n(rows + user intent)
+LLM_SUM --> UseCase : natural language summary
+
+UseCase --> CLI : response_model\n(summary + SQL + rows)
+CLI --> User : formatted output
+
+@enduml

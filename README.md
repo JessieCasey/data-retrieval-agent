@@ -1,82 +1,67 @@
 # data-retrieval-agent
 
-Production-style PoC for a CLI "AI data analyst" that:
+## Setup (macOS/Linux)
 
-- Loads an Excel file into pandas
-- Exposes the DataFrame as one SQL table with `pandasql`
-- Uses OpenAI (`gpt-4o-mini`) to generate SQL from natural language questions
-- Applies SQL guardrails (`SELECT`-only + enforced `LIMIT`)
-- Executes SQL and prints readable results in the terminal
-
-## Requirements
-
-- Python 3.11+
-- OpenAI API key
-
-## Setup
-
-Linux/macOS (zsh/bash):
+Create and activate a virtual environment:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install --upgrade pip
-pip install poetry
-python -m poetry install
-cp .env.example .env
 ```
 
-Windows (PowerShell):
+Install Poetry in the active virtual environment:
+
+```bash
+pip install --upgrade pip
+pip install poetry
+```
+
+Install project dependencies:
+
+```bash
+python -m poetry install
+```
+
+```bash
+cp .env.example .env
+```
+Add your `OPENAI_API_KEY` to `.env`.
+
+## Setup (Windows PowerShell)
 
 ```powershell
-py -3 -m venv .venv
-.venv\Scripts\Activate.ps1
-py -m pip install --upgrade pip
-pip install poetry
-py -m poetry install
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install poetry
+python -m poetry install
 Copy-Item .env.example .env
 ```
 
-Set `OPENAI_API_KEY` in `.env`.
-
 ## Run
 
+Run with the default dataset:
+
 ```bash
-python src/data_retrieval_agent/main.py "data/Data Dump - Accrual Accounts.xlsx" "Show top 10 rows"
+python src/main.py --prompt "how many customers there?"
 ```
 
-## Development
+Run with a custom Excel file:
+
+```bash
+python src/main.py --prompt "how many customers there?" --filename "/absolute/path/to/file.xlsx"
+```
+
+Show CLI help:
+
+```bash
+python src/main.py --help
+```
+
+## Quality
 
 ```bash
 python -m poetry run ruff check .
 python -m poetry run ruff format .
-python -m poetry run mypy .
 python -m poetry run pytest
-```
-
-## Project layout
-
-```text
-data-retrieval-agent/
-  pyproject.toml
-  README.md
-  .env.example
-  .gitignore
-  data/
-    Data Dump - Accrual Accounts.xlsx
-  src/
-    data_retrieval_agent/
-      __init__.py
-      main.py
-      cli.py
-      use_case.py
-      ports.py
-      datastore.py
-      llm.py
-      prompts.py
-      sql_executor.py
-      answer.py
-      app_types.py
-  tests/
-    test_sql_executor.py
 ```

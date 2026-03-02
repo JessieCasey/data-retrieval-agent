@@ -91,13 +91,13 @@ class OpenAIPandasqlService(LlmQueryService):
 
     def _extract_sql_from_structured_response(self, content: str) -> str:
         match = re.search(
-            r"BEGIN_SQL\s*(?P<sql>.*?)\s*END_SQL",
+            r"<BEGIN_SQL>\s*(?P<sql>.*?)\s*<END_SQL>",
             content,
             flags=re.DOTALL,
         )
         if not match:
             raise ValueError(
-                "LLM response does not follow required SQL structure: BEGIN_SQL ... END_SQL.",
+                "LLM response does not follow required SQL structure: <BEGIN_SQL> ... <END_SQL>.",
             )
 
         sql = match.group("sql").strip()

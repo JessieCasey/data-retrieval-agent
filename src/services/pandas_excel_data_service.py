@@ -1,5 +1,5 @@
-from pathlib import Path
 import re
+from pathlib import Path
 
 import pandas as pd
 from pandasql import sqldf
@@ -35,7 +35,9 @@ class PandasExcelDataService(TabularDataService):
                 try:
                     result = sqldf(fallback_sql, {self.table_name: dataframe})
                 except Exception as fallback_exc:  # pragma: no cover
-                    raise ValueError(f"Failed to execute pandasql query: {fallback_exc}") from fallback_exc
+                    raise ValueError(
+                        f"Failed to execute pandasql query: {fallback_exc}"
+                    ) from fallback_exc
             else:
                 raise ValueError(f"Failed to execute pandasql query: {exc}") from exc
 
