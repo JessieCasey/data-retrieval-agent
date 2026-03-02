@@ -8,3 +8,6 @@ class AiExtractionPipelineQueryResponseModel(ResponseModel):
     exit_code: int
     filename: str
     prompt: str
+    generated_sql: str
+    result_rows: int
+    summary: str

@@ -71,7 +71,6 @@ data-retrieval-agent/
       cli.py
       use_case.py
       ports.py
-      config.py
       datastore.py
       llm.py
       prompts.py
