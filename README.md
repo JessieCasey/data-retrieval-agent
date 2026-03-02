@@ -2,6 +2,7 @@
 
 `data-retrieval-agent` is a CLI PoC for non-technical data profiling on Excel files.
 It loads data with pandas, asks OpenAI to generate a `SELECT` query, runs it via `pandasql`, and returns:
+
 - a short natural-language summary,
 - generated SQL,
 - row count,
@@ -117,13 +118,15 @@ python src/main.py --help
 
 ## Prompt Examples
 
-| Prompt | Expected answer |
-|---|---|
-| How many rows are in the file? | 13,152 |
-| How many columns are in the file? | 19 |
-| How many duplicate rows exist? | 0 |
-| How many rows are in CAD? | 50 |
-| How many distinct currencies exist? | 2 |
+| Prompt                                       | Expected answer |
+|----------------------------------------------|-----------------|
+| How many rows are in the file?               | 13,152          |
+| How many columns are in the file?            | 19              |
+| How many duplicate rows exist?               | 0               |
+| How many rows are in CAD?                    | 50              |
+| How many distinct currencies exist?          | 2               |
+| How many rows have Authorization Group = 40? | 346             |
+| What is the average Transaction Value?       | 	-5,993.932     |
 
 ## Sample Outputs
 
