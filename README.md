@@ -1,61 +1,165 @@
 # data-retrieval-agent
 
-## Setup (macOS/Linux)
+`data-retrieval-agent` is a CLI PoC for non-technical data profiling on Excel files.
+It loads data with pandas, asks OpenAI to generate a `SELECT` query, runs it via `pandasql`, and returns:
+- a short natural-language summary,
+- generated SQL,
+- row count,
+- and a preview table (up to 10 rows).
 
-Create and activate a virtual environment:
+## Stack
+
+- Python 3.11+
+- Typer (CLI)
+- pandas + openpyxl (Excel loading)
+- pandasql (SQL over DataFrame)
+- openai (`gpt-4o-mini`)
+- python-dotenv (`.env` config)
+- rich (table output)
+- ruff + pytest (quality checks)
+
+## Architecture
+
+![High level architecture](docs/high_level_architecture.png)
+
+## Setup (macOS/Linux, Bash)
+
+1. Create virtual environment:
 
 ```bash
 python3 -m venv .venv
+```
+
+2. Activate virtual environment:
+
+```bash
 source .venv/bin/activate
 ```
 
-Install Poetry in the active virtual environment:
+3. Install Poetry:
 
 ```bash
-pip install --upgrade pip
-pip install poetry
+python -m pip install --upgrade pip
+python -m pip install poetry
 ```
 
-Install project dependencies:
+4. Install project dependencies:
 
 ```bash
 python -m poetry install
 ```
+
+5. Create `.env` from template:
 
 ```bash
 cp .env.example .env
 ```
-Add your `OPENAI_API_KEY` to `.env`.
 
-## Setup (Windows PowerShell)
+6. Set `OPENAI_API_KEY` in `.env`.
 
-```powershell
+## Setup (Windows, Git Bash)
+
+1. Create virtual environment:
+
+```bash
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+```
+
+2. Activate virtual environment:
+
+```bash
+source .venv/Scripts/activate
+```
+
+3. Install Poetry:
+
+```bash
 python -m pip install --upgrade pip
 python -m pip install poetry
-python -m poetry install
-Copy-Item .env.example .env
 ```
+
+4. Install project dependencies:
+
+```bash
+python -m poetry install
+```
+
+5. Create `.env` from template:
+
+```bash
+cp .env.example .env
+```
+
+6. Set `OPENAI_API_KEY` in `.env`.
 
 ## Run
 
-Run with the default dataset:
+Default dataset:
 
 ```bash
-python src/main.py --prompt "how many customers there?"
+python src/main.py --prompt "How many rows are in the file?"
 ```
 
-Run with a custom Excel file:
+Custom dataset:
 
 ```bash
-python src/main.py --prompt "how many customers there?" --filename "/absolute/path/to/file.xlsx"
+python src/main.py --prompt "How many rows are in the file?" --filename "/absolute/path/to/file.xlsx"
 ```
 
-Show CLI help:
+Help:
 
 ```bash
 python src/main.py --help
+```
+
+![CLI help](docs/script-help.png)
+![Prompt example](docs/prompt-example-usage.png)
+
+## Prompt Examples
+
+| Prompt | Expected answer |
+|---|---|
+| How many rows are in the file? | 13,152 |
+| How many columns are in the file? | 19 |
+| How many duplicate rows exist? | 0 |
+| How many rows are in CAD? | 50 |
+| How many distinct currencies exist? | 2 |
+
+## Sample Outputs
+
+```bash
+python src/main.py --prompt "How many rows are in the file?"
+Summary: The file contains a total of 13,152 rows.
+SQL: SELECT COUNT(*) AS total_rows FROM records
+Rows: 1
+```
+
+```bash
+python src/main.py --prompt "How many columns are in the file?"
+Summary: The file contains a total of 19 columns.
+SQL: SELECT 19 AS total_columns
+Rows: 1
+```
+
+```bash
+python src/main.py --prompt "How many duplicate rows exist?"
+Summary: There are no duplicate rows in the dataset, as the count of total rows matches the count of unique rows.
+SQL: SELECT COUNT(*) - COUNT(DISTINCT "Unnamed: 0") AS duplicate_rows FROM records
+Rows: 1
+```
+
+```bash
+python src/main.py --prompt "How many rows are in CAD?"
+Summary: There are 50 records in the database where the currency is Canadian Dollars (CAD).
+SQL: SELECT COUNT(*) AS total_rows FROM records WHERE "Currency" = 'CAD'
+Rows: 1
+```
+
+```bash
+python src/main.py --prompt "How many distinct currencies exist?"
+Summary: There are two distinct currencies recorded in the dataset.
+SQL: SELECT COUNT(DISTINCT "Currency") AS total_currencies FROM records
+Rows: 1
 ```
 
 ## Quality
