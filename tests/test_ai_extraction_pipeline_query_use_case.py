@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from tests.fakes import (
+from tests.mocks import (
     FailingTabularDataService,
     MockLlmQueryService,
     MockTabularDataService,
