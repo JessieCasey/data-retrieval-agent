@@ -1,7 +1,7 @@
 # data-retrieval-agent
 
-`data-retrieval-agent` is a CLI PoC for non-technical data profiling on Excel files.
-It loads data with pandas, asks OpenAI to generate a `SELECT` query, runs it via `pandasql`, and returns:
+This project would help for non-technical users to make data profiling on Excel files.
+It loads data with pandas, asks OpenAI to generate the SQL query, runs it, and returns:
 
 - a short natural-language summary,
 - generated SQL,
@@ -15,7 +15,6 @@ It loads data with pandas, asks OpenAI to generate a `SELECT` query, runs it via
 - pandas + openpyxl (Excel loading)
 - pandasql (SQL over DataFrame)
 - openai (`gpt-4o-mini`)
-- python-dotenv (`.env` config)
 - rich (table output)
 - ruff + pytest (quality checks)
 
