@@ -23,75 +23,27 @@ It loads data with pandas, asks OpenAI to generate a `SELECT` query, runs it via
 
 ![High level architecture](docs/high_level_architecture.png)
 
-## Setup (macOS/Linux, Bash)
-
-1. Create virtual environment:
+## Setup
 
 ```bash
-python3 -m venv .venv
-```
-
-2. Activate virtual environment:
-
-```bash
-source .venv/bin/activate
-```
-
-3. Install Poetry:
-
-```bash
-python -m pip install --upgrade pip
-python -m pip install poetry
-```
-
-4. Install project dependencies:
-
-```bash
-python -m poetry install
-```
-
-5. Create `.env` from template:
-
-```bash
-cp .env.example .env
-```
-
-6. Set `OPENAI_API_KEY` in `.env`.
-
-## Setup (Windows, Git Bash)
-
-1. Create virtual environment:
-
-```bash
+# 1) Create virtual environment
 python -m venv .venv
-```
 
-2. Activate virtual environment:
+# 2) Activate virtual environment
+source .venv/bin/activate  # Windows PowerShell: .\.venv\Scripts\Activate.ps1
 
-```bash
-source .venv/Scripts/activate
-```
-
-3. Install Poetry:
-
-```bash
+# 3) Install Poetry
 python -m pip install --upgrade pip
 python -m pip install poetry
-```
 
-4. Install project dependencies:
-
-```bash
+# 4) Install project dependencies
 python -m poetry install
+
+# 5) Create .env from template
+cp .env.example .env  # Windows PowerShell: Copy-Item .env.example .env
 ```
 
-5. Create `.env` from template:
-
-```bash
-cp .env.example .env
-```
-
-6. Set `OPENAI_API_KEY` in `.env`.
+Set `OPENAI_API_KEY` in `.env`.
 
 ## Run
 
