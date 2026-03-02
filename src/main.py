@@ -22,23 +22,23 @@ DEFAULT_DATA_FILENAME = PROJECT_ROOT / "data" / "data_dump_accrual_accounts.xlsx
 
 @app.command()
 def query(
-        prompt: Annotated[
-            str,
-            typer.Option(
-                ...,
-                "--prompt",
-                "-p",
-                help="Natural-language question.",
-            ),
-        ],
-        filename: Annotated[
-            Path,
-            typer.Option(
-                "--filename",
-                "-f",
-                help="Path to Excel file.",
-            ),
-        ] = DEFAULT_DATA_FILENAME,
+    prompt: Annotated[
+        str,
+        typer.Option(
+            ...,
+            "--prompt",
+            "-p",
+            help="Natural-language question.",
+        ),
+    ],
+    filename: Annotated[
+        Path,
+        typer.Option(
+            "--filename",
+            "-f",
+            help="Path to Excel file.",
+        ),
+    ] = DEFAULT_DATA_FILENAME,
 ) -> None:
     request_model = AiExtractionPipelineQueryRequestModel(filename, prompt)
     console = Console()
