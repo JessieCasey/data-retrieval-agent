@@ -1,6 +1,6 @@
 # data-retrieval-agent
 
-This project would help for non-technical users to make data profiling on Excel files.
+This project would help non-technical users to make data profiling on Excel files.
 It loads data with pandas, asks OpenAI to generate the SQL query, runs it, and returns:
 
 - a short natural-language summary,
